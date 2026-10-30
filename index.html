@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f7f4ee">
+<title>Мемориальные точки Ступино</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/main.css">
+<link rel="icon" type="image/x-icon" href="img/favicon.png">
+<script>
+/* Ранняя инициализация темы — чтобы не было «мигания» при загрузке */
+(function () {
+  try {
+    var saved = localStorage.getItem('stup_theme');
+    var root = document.documentElement;
+    if (saved === 'dark' || saved === 'light') root.setAttribute('data-theme', saved);
+    var isDark = saved === 'dark' ||
+      (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', isDark ? '#131211' : '#f7f4ee');
+  } catch (e) {}
+})();
+</script>
+</head>
+<body>
+
+<!-- ══════════ PRELOADER ══════════ -->
+<div class="preloader" id="preloader" aria-hidden="true">
+  <div class="preloader-glow"></div>
+  <div class="preloader-content">
+    <div class="preloader-flame">
+      <svg viewBox="0 0 60 92" aria-hidden="true">
+        <defs>
+          <radialGradient id="pf-grad" cx="50%" cy="78%" r="62%">
+            <stop offset="0%" stop-color="#fff6cf"/>
+            <stop offset="32%" stop-color="#ffce5c"/>
+            <stop offset="66%" stop-color="#e08a1e"/>
+            <stop offset="100%" stop-color="#8c1c13"/>
+          </radialGradient>
+        </defs>
+        <path class="pf-flame-a" fill="url(#pf-grad)" d="M30 6c8.5 15 17 22 17 37 0 13-7.6 22-17 22s-17-9-17-22C13 28 21.5 21 30 6z"/>
+        <path class="pf-flame-b" fill="#fff7db" opacity=".8" d="M30 34c4 7.6 7.2 11 7.2 17.4 0 6.3-3.2 10.6-7.2 10.6s-7.2-4.3-7.2-10.6C22.8 45 26 41.6 30 34z"/>
+      </svg>
+    </div>
+    <h2 class="preloader-title" aria-label="Добро пожаловать">
+      <span class="word"><span style="--i:0">Д</span><span style="--i:1">о</span><span style="--i:2">б</span><span style="--i:3">р</span><span style="--i:4">о</span></span>
+      <span class="word"><span style="--i:5">п</span><span style="--i:6">о</span><span style="--i:7">ж</span><span style="--i:8">а</span><span style="--i:9">л</span><span style="--i:10">о</span><span style="--i:11">в</span><span style="--i:12">а</span><span style="--i:13">т</span><span style="--i:14">ь</span></span>
+    </h2>
+    <div class="preloader-line"><b></b></div>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="w hero-in">
+    <svg class="flame" viewBox="0 0 60 92" aria-hidden="true" focusable="false">
+      <defs>
+        <radialGradient id="fgrad" cx="50%" cy="78%" r="62%">
+          <stop offset="0%" stop-color="#fff6cf"/>
+          <stop offset="32%" stop-color="#ffce5c"/>
+          <stop offset="66%" stop-color="#e08a1e"/>
+          <stop offset="100%" stop-color="#8c1c13"/>
+        </radialGradient>
+        <radialGradient id="ggrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#ffce5c" stop-opacity=".55"/>
+          <stop offset="100%" stop-color="#ffce5c" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <circle cx="30" cy="62" r="30" fill="url(#ggrad)"/>
+      <path class="fl-a" fill="url(#fgrad)" d="M30 6c8.5 15 17 22 17 37 0 13-7.6 22-17 22s-17-9-17-22C13 28 21.5 21 30 6z"/>
+      <path class="fl-b" fill="#fff7db" opacity=".8" d="M30 34c4 7.6 7.2 11 7.2 17.4 0 6.3-3.2 10.6-7.2 10.6s-7.2-4.3-7.2-10.6C22.8 45 26 41.6 30 34z"/>
+    </svg>
+
+    <p class="eyebrow">Память о Великой Отечественной войне · 1941–1945</p>
+    <h1>Мемориальные точки Ступино</h1>
+    <p class="lead">Единый маршрут по памятникам, обелискам, братским могилам и мемориальным доскам города. Выбирайте точки на карте, читайте истории мест и отмечайте то, что уже прошли.</p>
+
+    <div class="tools" role="group" aria-label="Настройки просмотра">
+      <button class="btn" id="fs" type="button" aria-pressed="false">Крупный шрифт</button>
+      <button class="btn" id="th" type="button" aria-pressed="false">Тёмная тема</button>
+      <button class="btn" id="reset" type="button">Сбросить прогресс</button>
+    </div>
+
+    <div class="progress" aria-live="polite">
+      <div class="progress-row">
+        <span class="progress-label" id="pt">Пройдено 0 из 10</span>
+        <span class="progress-pct" id="pp">0%</span>
+      </div>
+      <div class="bar"><b id="pb"></b></div>
+    </div>
+  </div>
+</header>
+
+<main class="w">
+
+  <section class="block" aria-labelledby="map-title">
+    <div class="section-head">
+      <h2 id="map-title">Интерактивная карта</h2>
+      <p class="section-sub">Выберите маршрут и нажмите на номер точки</p>
+    </div>
+
+    <div class="chips" id="rts" role="group" aria-label="Маршруты"></div>
+
+    <div class="mapbox">
+      <svg class="map" id="map" viewBox="0 0 100 70" role="group" aria-label="Схема расположения мемориальных точек"></svg>
+      <div class="panel" id="panel" aria-live="polite">
+        <span class="panel-tag">Точка на карте</span>
+        <h3>Выберите точку на карте</h3>
+        <p class="meta">Нажмите на номер, чтобы увидеть историю места. Маршруты подсвечиваются кнопками выше.</p>
+        <p class="body">Схема условная и не в масштабе: она показывает взаимное расположение объектов. Для навигации по городу используйте ссылку «Открыть на карте города» в карточке точки.</p>
+      </div>
+    </div>
+
+    <p class="note">Схема не является картой для навигации. Перед публикацией проверьте адреса и подписи вместе с сотрудниками Ступинского историко-краеведческого музея.</p>
+  </section>
+
+  <section class="block" aria-labelledby="pts">
+    <div class="section-head">
+      <h2 id="pts">Десять точек маршрута</h2>
+      <p class="section-sub">Фильтруйте по типу объекта и ищите по названию или улице</p>
+    </div>
+
+    <div class="chips" id="flt" role="group" aria-label="Фильтр по типу"></div>
+
+    <div class="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/>
+      </svg>
+      <input id="q" type="search" placeholder="Поиск по названию" aria-label="Поиск по названию" autocomplete="off">
+    </div>
+
+    <ol class="grid" id="list" aria-labelledby="pts"></ol>
+	<ol class="grid" id="list" aria-labelledby="pts"></ol>
+<p class="empty-state" id="empty" hidden>Ничего не найдено. Попробуйте изменить запрос или сбросить фильтры.</p>
+  </section>
+
+</main>
+
+<footer>
+  <div class="w">
+    <p>Проект подан на II Всероссийскую премию «Голос истории», номинация 9. Тексты подготовлены на основе открытых источников; перед публикацией сверьте даты, числа и фамилии с Ступинским историко-краеведческим музеем.</p>
+  </div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
